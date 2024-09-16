@@ -1,12 +1,22 @@
 <%= layout('/layouts/boilerplate') %>
-<body>
-    <h2>Details for <i><%= listing.title %></i></h2>
-    <ul>
-        <li><%= listing.description %></li>
-        <li>&#8377; <%= listing.price.toLocaleString("en-IN") %></li>
-        <li><%= listing.location %></li>
-        <li><%= listing.country %></li>
-    </ul>
-    <br><br>
-    <a href="/listings/<%=listing._id %>/edit">Edit Listing</a>
-</body>
+
+<h2 class="d-flex justify-content-center align-items-center m-5">Details for <i><%= listing.title %></i></h2>
+
+<div class="card col-8 offset-2 p-5 pt-0">
+
+    <img src="<%= listing.image %>" class="card-img-top" alt="listing image" style="height: 20rem;">
+
+    <!-- <div class="card-img-overlay d-flex align-items-center justify-content-center text-white">abcd</div> -->
+
+    <div class="card-body">
+
+        <h5 class="card-title fw-bold mt-2 pl-2"><i><%= listing.title %></i></h5>
+        <p class="card-text m-0"><%= listing.location %></p>
+        <p class="card-text"><%= listing.country %></p>
+        <p class="card-text"><%= listing.description %></p>
+        <p class="card-text">Price: <i>&#8377;<%= listing.price.toLocaleString("en-IN") %></i> per night stay</p>
+        <a href="/listings/<%=listing._id %>/edit" class="btn btn-primary">Edit Listing</a>
+
+    </div>
+
+</div>

@@ -1,26 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New - Wanderlust</title>
-</head>
-<body>
-    <h1>Add a new listing</h1>
-    <form action="/listings" method="POST">
-        <input type="text" name="title" placeholder="Enter title">
-        <br>
-        <textarea name="description" id="" placeholder="Enter description"></textarea>
-        <br>
-        <input name="image" placeholder="Enter image URL">
-        <br>
-        <input type="number" name="price" placeholder="Enter title">
-        <br>
-        <input type="text" name="country" placeholder="Country">
-        <br>
-        <input type="text" name="location" placeholder="Enter location">
+<%= layout('/layouts/boilerplate') %>
 
-        <button>Submit</button>
-    </form>
-</body>
-</html>
+
+    <div class="row">
+        <div class="col-8 offset-2">
+            <h1 class="mt-5 mb-5 d-flex align-items-center justify-content-center">Add a new listing</h1>
+            <form action="/listings" method="POST">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Enter title</label>
+                    <input type="text" name="title" placeholder="Title" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Enter description</label>
+                    <textarea name="description" id="description" placeholder="Description"
+                        class="form-control"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="img" class="form-label">Enter your image URL</label>
+                    <input type="url" name="image" placeholder="Image URL" id="img" class="form-control">
+                </div>
+
+                <div class="row">
+                    <div class="mb-3 col-md-4">
+                        <label for="price" class="form-label">Enter price</label>
+                        <input type="number" name="price" placeholder="Price" id="price" class="form-control">
+                    </div>
+                    <div class="mb-3 col-md-4">
+                        <label for="location" class="form-label">Enter location</label>
+                        <input type="text" name="location" placeholder="Location" id="location" class="form-control">
+                    </div>
+                    <div class="mb-3 col-md-4">
+                        <label for="country" class="form-label">Enter country</label>
+                        <input type="text" name="country" placeholder="Country" id="country" class="form-control">
+                    </div>
+                </div>
+
+                <button class="btn btn-primary mb-5">Submit</button>
+            </form>
+        </div>
+
+    </div>

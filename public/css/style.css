@@ -1,6 +1,13 @@
-/* body {
+body {
     background-color: pink;
-} */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    flex: 1;
+}
 
 .navbar {
     height: 5rem;
@@ -48,6 +55,7 @@
 .card {
     border: none !important;
     margin-bottom: 2rem;
+    position: relative;
 }
 
 .card-img-top {
@@ -66,10 +74,21 @@
 
 
 .card-img-overlay {
-    opacity: 0 !important;
-
+    position: absolute; /* Ensure overlay is positioned on top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background-color: rgba(0, 0, 0, 0.5); /* Add a semi-transparent background */
+    color: white;
+    opacity: 0; /* Set a visible opacity */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem; /* Match the image border radius */
+    transition: opacity 0.3s ease; /* Add a smooth transition effect */
 }
-.card-img-overlay:hover {
-    opacity: 0.2 !important;
 
+.card-img-overlay:hover {
+    opacity: 1; /* Increase opacity when hovering */
 }
