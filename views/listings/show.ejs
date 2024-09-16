@@ -1,0 +1,12 @@
+<%= layout('/layouts/boilerplate') %>
+<body>
+    <h2>Details for <i><%= listing.title %></i></h2>
+    <ul>
+        <li><%= listing.description %></li>
+        <li>&#8377; <%= listing.price.toLocaleString("en-IN") %></li>
+        <li><%= listing.location %></li>
+        <li><%= listing.country %></li>
+    </ul>
+    <br><br>
+    <a href="/listings/<%=listing._id %>/edit">Edit Listing</a>
+</body>
