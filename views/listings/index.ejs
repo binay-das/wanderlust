@@ -15,7 +15,8 @@
                         <p class="card-text m-0"><%= listing.location %></p>
                         <p class="card-text"><%= listing.country %></p>
                         <p class="card-text"><%= listing.description %></p>
-                        <p class="card-text d-inline">&#8377;<%= listing.price.toLocaleString("en-IN") %></p>
+                        
+                        <p class="card-text d-inline">&#8377;<%= listing.price %></p>
                         <a href="/listings/<%= listing.id %>" class="btn btn-primary">View</a>
                     </div>
                 </div>
