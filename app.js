@@ -5,11 +5,12 @@ const path = require('path');
 const Listing = require("./models/listing.js");
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
+const wrapAsync = require('./utils/wrapAsync');
 
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
@@ -25,22 +26,23 @@ main()
 async function main() {
     await mongoose.connect(MONGO_URL);
 }
-app.get("/", (req, res)=>{
+app.get("/", (req, res) => {
     res.send(`Hi, I'm root`);
 });
 
-app.get("/listings", async (req, res)=>{
+app.get("/listings", async (req, res) => {
     const allListings = await Listing.find({});
-    res.render("listings/index.ejs", {allListings});
-        
-    
+    res.render("listings/index.ejs", { allListings });
+
+
 });
-app.post("/listings", async(req, res)=>{
-    let {title, description, image, price, country, location} = req.body;
+app.post("/listings", wrapAsync(async (req, res, next) => {
+
+    let { title, description, image, price, country, location } = req.body;
     const newListing = new Listing({
         title: title,
         description: description,
-        image: image, 
+        image: image,
         price: price,
         country: country,
         location: location
@@ -48,37 +50,39 @@ app.post("/listings", async(req, res)=>{
 
     await newListing.save();
     res.redirect("/listings");
-});
+
+
+}));
 
 
 
-app.get("/listings/new", (req, res)=>{
+app.get("/listings/new", (req, res) => {
     res.render("listings/new.ejs");
 });
 
-app.get("/listings/:id", async (req, res)=>{
-    let {id} = req.params;
+app.get("/listings/:id", async (req, res) => {
+    let { id } = req.params;
     const listing = await Listing.findById(id);
-    res.render("listings/show.ejs", {listing});
+    res.render("listings/show.ejs", { listing });
 });
-app.get("/listings/:id/edit", async (req, res)=>{
-    let {id} = req.params;
+app.get("/listings/:id/edit", async (req, res) => {
+    let { id } = req.params;
     const listing = await Listing.findById(id);
-    res.render("listings/edit.ejs", {listing});
+    res.render("listings/edit.ejs", { listing });
 });
 
-app.put("/listings/:id", async(req, res)=>{
-    let {id} = req.params;
-    let {title, description, image, price, country, location} = req.body;
+app.put("/listings/:id", async (req, res) => {
+    let { id } = req.params;
+    let { title, description, image, price, country, location } = req.body;
     const editListing = {
         title: title,
         description: description,
-        image: image, 
+        image: image,
         price: price,
         country: country,
         location: location
     };
-    await Listing.findByIdAndUpdate(id, editListing, {new: true});
+    await Listing.findByIdAndUpdate(id, editListing, { new: true });
     res.redirect("/listings");
 });
 
@@ -88,7 +92,7 @@ app.put("/listings/:id", async(req, res)=>{
 //     let sampleListing = new Listing({
 //         title: "My new villa",
 //         description: "By the beach",
-        
+
 //         price: 1200,
 //         location: "Goa",
 //         country: "India",
@@ -98,8 +102,11 @@ app.put("/listings/:id", async(req, res)=>{
 //     console.log(`Sample saved`);
 
 // })
+app.use((err, req, res, next) => {
+    res.send("Something went wrong");
+});
 
 const port = 8080;
-app.listen(port, ()=>{
+app.listen(port, () => {
     console.log(`Server is listening to ${port}`);
 });
