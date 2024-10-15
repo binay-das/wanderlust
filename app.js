@@ -115,7 +115,8 @@ app.all('*', (req, res, next) => {
 
 app.use((err, req, res, next) => {
     let { statusCode, message } = err;
-    res.status(statusCode).send({ message });
+    res.status(statusCode).render("error.ejs", { err });
+    // res.status(statusCode).send({ message });
 });
 
 const port = 8080;
