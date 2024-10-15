@@ -40,6 +40,9 @@ app.get("/listings", wrapAsync(async (req, res) => {
 
 app.post("/listings", wrapAsync(async (req, res, next) => {
 
+    if (!req.body.listing) {
+        throw new ExpressError(400, "Please provide a listing");
+    }
     let { title, description, image, price, country, location } = req.body;
     const newListing = new Listing({
         title: title,
