@@ -5,7 +5,8 @@ const path = require('path');
 const Listing = require("./models/listing.js");
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
-const wrapAsync = require('./utils/wrapAsync');
+const wrapAsync = require('./utils/wrapAsync.js');
+const ExpressError = require('./utils/ExpressError.js');
 
 
 app.set("view engine", "ejs");
@@ -30,12 +31,13 @@ app.get("/", (req, res) => {
     res.send(`Hi, I'm root`);
 });
 
-app.get("/listings", async (req, res) => {
+app.get("/listings", wrapAsync(async (req, res) => {
     const allListings = await Listing.find({});
     res.render("listings/index.ejs", { allListings });
 
 
-});
+}));
+
 app.post("/listings", wrapAsync(async (req, res, next) => {
 
     let { title, description, image, price, country, location } = req.body;
@@ -60,18 +62,19 @@ app.get("/listings/new", (req, res) => {
     res.render("listings/new.ejs");
 });
 
-app.get("/listings/:id", async (req, res) => {
+app.get("/listings/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
     res.render("listings/show.ejs", { listing });
-});
-app.get("/listings/:id/edit", async (req, res) => {
+}));
+
+app.get("/listings/:id/edit", wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
     res.render("listings/edit.ejs", { listing });
-});
+}));
 
-app.put("/listings/:id", async (req, res) => {
+app.put("/listings/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
     let { title, description, image, price, country, location } = req.body;
     const editListing = {
@@ -84,7 +87,7 @@ app.put("/listings/:id", async (req, res) => {
     };
     await Listing.findByIdAndUpdate(id, editListing, { new: true });
     res.redirect("/listings");
-});
+}));
 
 
 
@@ -102,8 +105,14 @@ app.put("/listings/:id", async (req, res) => {
 //     console.log(`Sample saved`);
 
 // })
+
+app.all('*', (req, res, next) => {
+    next(new ExpressError(404, "Page not found"));
+});
+
 app.use((err, req, res, next) => {
-    res.send("Something went wrong");
+    let { statusCode, message } = err;
+    res.status(statusCode).send({ message });
 });
 
 const port = 8080;
