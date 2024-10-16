@@ -52,7 +52,16 @@ app.post("/listings", wrapAsync(async (req, res, next) => {
         country: country,
         location: location
     });
-
+    
+    if (!newListing.title) {
+        throw new ExpressError(400, "Please provide a title");
+    }
+    if (!newListing.description) {
+        throw new ExpressError(400, "Please provide a description");
+    }
+    if (!newListing.location) {
+        throw new ExpressError(400, "Please provide a location");
+    }
     await newListing.save();
     res.redirect("/listings");
 
