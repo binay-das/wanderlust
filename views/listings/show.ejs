@@ -47,6 +47,9 @@
                                 <%= review.comment %>
                             </p>
                         </div>
+                        <form method="post" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" class="mb-3">
+                            <button class="btn btn-dark btn-sm">Delete</button>
+                        </form>
                     </div>
                 <% } %>
             </div>

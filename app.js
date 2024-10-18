@@ -138,6 +138,8 @@ app.delete("/listings/:id", wrapAsync(async (req, res) => {
 
 }));
 
+
+// review (POST)
 app.post("/listings/:id/reviews", validateReview, wrapAsync(async (req, res) => {
     let listing = await Listing.findById(req.params.id);
     let newReview = new Review(req.body.review);
@@ -149,6 +151,17 @@ app.post("/listings/:id/reviews", validateReview, wrapAsync(async (req, res) => 
 
     console.log("new review saved");
     res.redirect(`/listings/${listing._id}`);
+}));
+
+// review (DELETE)
+app.delete("/listings/:id/reviews/:reviewId", wrapAsync(async (req, res) => {
+    let {id, reviewId} = req.params;
+    await Listing.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});  // the review is removed from the listing
+    // '$pull' operator removes form an exising array of all instances of a value that match a specified condition
+
+    await Review.findByIdAndDelete(reviewId); // the review is deleted as well
+
+    res.redirect(`/listings/${id}`);
 }));
 
 
