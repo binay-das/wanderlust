@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Review = require('./review');
 
 const listingSchema = new Schema({
     title: {
@@ -12,7 +13,7 @@ const listingSchema = new Schema({
         default: "https://images.pexels.com/photos/27596706/pexels-photo-27596706/free-photo-of-a-street-sign-is-on-the-side-of-a-building.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         set: (v) => v === "" ? "https://images.pexels.com/photos/27596706/pexels-photo-27596706/free-photo-of-a-street-sign-is-on-the-side-of-a-building.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" : v,
     },
-    price: Number, 
+    price: Number,
     location: String,
     country: String,
     reviews: [
@@ -21,6 +22,12 @@ const listingSchema = new Schema({
             ref: 'Review'
         }
     ]
+});
+
+listingSchema.post("findOneAndDelete", async (listing) => {
+    if (listing) {
+        await Review.deleteMany({ _id: { $in: listing.reviews } });
+    }
 });
 
 const Listing = mongoose.model("Listing", listingSchema);
