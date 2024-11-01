@@ -1,8 +1,7 @@
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="/listings"><i class="fa-solid fa-compass"></i></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-            >
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -10,6 +9,17 @@
                 <a class="nav-link" aria-current="page" href="/">Home</a>
                 <a class="nav-link" href="/listings">All listings</a>
                 <a class="nav-link" href="/listings/new">Add new listing</a>
+            </div>
+            <div class="navbar-nav ms-auto">
+                <% if(!currUser) { %>
+                    <a class="nav-link" aria-current="page" href="/">SignUp</a>
+                    <a class="nav-link" href="/listings">Log In</a>
+                <% } %>
+                
+                <% if(currUser) { %>
+                    <a class="nav-link" href="/listings">Log Out</a>
+                <% } %>
+
             </div>
         </div>
     </div>
