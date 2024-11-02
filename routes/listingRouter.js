@@ -1,23 +1,9 @@
 const express = require('express');
 const Router = express.Router();
 const wrapAsync = require('../utils/wrapAsync');
-const ExpressError = require('../utils/ExpressError.js');
-const { listingSchema } = require('../schema');
 const Listing = require('../models/listing.js');
 
-const { isLoggedIn } = require('../middleware.js');
-
-// Middleware: Validate Listing
-const validateListing = (req, res, next) => {
-    let { error } = listingSchema.validate(req.body);
-    if (error) {
-        let errorMessage = error.details.map((el) => el.message).join(', ');
-        throw new ExpressError(400, errorMessage);
-
-    } else {
-        next();
-    }
-}
+const { isLoggedIn, isOwner, validateListing } = require('../middleware.js');
 
 Router.get("/", wrapAsync(async (req, res) => {
     const allListings = await Listing.find({});
@@ -83,7 +69,7 @@ Router.get("/:id", wrapAsync(async (req, res) => {
     res.render("listings/show.ejs", { listing });
 }));
 
-Router.get("/:id/edit", isLoggedIn, wrapAsync(async (req, res) => {
+Router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
     // if (!listing) throw new ExpressError(404, "Listing Not Found");
@@ -95,7 +81,7 @@ Router.get("/:id/edit", isLoggedIn, wrapAsync(async (req, res) => {
     res.render("listings/edit.ejs", { listing });
 }));
 
-Router.put("/:id", isLoggedIn, wrapAsync(async (req, res) => {
+Router.put("/:id", isLoggedIn, isOwner, wrapAsync(async (req, res) => {
     let { id } = req.params;
 
     let { title, description, image, price, country, location } = req.body;
@@ -114,7 +100,7 @@ Router.put("/:id", isLoggedIn, wrapAsync(async (req, res) => {
     res.redirect(`/listings/${updatedListing._id}`);
 }));
 
-Router.delete("/:id", isLoggedIn, wrapAsync(async (req, res) => {
+Router.delete("/:id", isLoggedIn, isOwner, wrapAsync(async (req, res) => {
     let { id } = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id);
     console.log(deletedListing);
