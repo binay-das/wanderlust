@@ -1,6 +1,6 @@
 const Listing = require("./models/listing");
 const ExpressError = require("./utils/ExpressError");
-const { listingSchema } = require('./schema');
+const { listingSchema, reviewSchema } = require('./schema');
 
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
@@ -36,6 +36,18 @@ module.exports.isOwner = async (req, res, next) => {
 // Middleware: Validate Listing
 module.exports.validateListing = (req, res, next) => {
     let { error } = listingSchema.validate(req.body);
+    if (error) {
+        let errorMessage = error.details.map((el) => el.message).join(', ');
+        throw new ExpressError(400, errorMessage);
+
+    } else {
+        next();
+    }
+}
+
+// Middleware: Validate Review
+module.exports.validateReview = (req, res, next) => {
+    let { error } = reviewSchema.validate(req.body);
     if (error) {
         let errorMessage = error.details.map((el) => el.message).join(', ');
         throw new ExpressError(400, errorMessage);
