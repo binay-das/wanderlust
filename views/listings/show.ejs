@@ -22,17 +22,23 @@
                 <%= listing.country %>
             </p>
             <p class="card-text">
-                Owner: <i> <%= listing.owner.username %> </i>
+                Owner: <i>
+                    <%= listing.owner.username %>
+                </i>
             </p>
             <p class="card-text">
                 <%= listing.description %>
             </p>
             <p class="card-text">Price: <i>&#8377;<%= listing.price.toLocaleString("en-IN") %></i> per night stay</p>
-            <a href="/listings/<%=listing._id %>/edit" class="btn btn-primary">Edit Listing</a>
 
-            <form method="post" action="/listings/<%= listing._id %>?_method=DELETE">
-                <button class="btn btn-dark offset-5">Delete</button>
-            </form>
+            <% if(currUser && currUser._id.equals(listing.owner)._id) {%>
+                <a href="/listings/<%=listing._id %>/edit" class="btn btn-primary">Edit Listing</a>
+
+                <form method="post" action="/listings/<%= listing._id %>?_method=DELETE">
+                    <button class="btn btn-dark offset-5">Delete</button>
+                </form>
+            <% } %>
+
         </div>
 
         <hr>
