@@ -5,13 +5,14 @@ const ExpressError = require('../utils/ExpressError.js');
 const { reviewSchema } = require('../schema');
 const Listing = require('../models/listing.js');
 const Review = require('../models/review.js');
-const { validateReview } = require('../middleware.js');
+const { validateReview, isLoggedIn, isReviewAuthor } = require('../middleware.js');
 
 // review (POST)
-Router.post("/", validateReview, wrapAsync(async (req, res) => {
+Router.post("/", isLoggedIn, validateReview, wrapAsync(async (req, res) => {
     try {
         let listing = await Listing.findById(req.params.id);
         let newReview = new Review(req.body.review);
+        newReview.author = req.user._id;
 
         listing.reviews.push(newReview);
 
@@ -29,7 +30,7 @@ Router.post("/", validateReview, wrapAsync(async (req, res) => {
 }));
 
 // review (DELETE)
-Router.delete("/:reviewId", wrapAsync(async (req, res) => {
+Router.delete("/:reviewId", isLoggedIn, isReviewAuthor, wrapAsync(async (req, res) => {
     let { id, reviewId } = req.params;
     await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });  // the review is removed from the listing
     // '$pull' operator removes form an exising array of all instances of a value that match a specified condition
