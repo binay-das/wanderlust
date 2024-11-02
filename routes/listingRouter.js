@@ -47,6 +47,7 @@ Router.post("/", isLoggedIn, validateListing, wrapAsync(async (req, res, next) =
     // });
 
     const newListing = new Listing(req.body.listing);
+    newListing.owner = req.user._id;
 
     // if (!newListing.title) {
     //     throw new ExpressError(400, "Please provide a title");
@@ -74,7 +75,7 @@ Router.get("/new", isLoggedIn, (req, res) => {
 
 Router.get("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
-    const listing = await Listing.findById(id).populate('reviews');
+    const listing = await Listing.findById(id).populate('reviews').populate('owner');
     if (!listing) {
         req.flash('error', 'listing you requested not found');
         res.redirect("/listings");
