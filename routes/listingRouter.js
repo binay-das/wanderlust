@@ -1,22 +1,25 @@
 const express = require('express');
-const Router = express.Router();
+const router = express.Router();
 const wrapAsync = require('../utils/wrapAsync');
 
 const { isLoggedIn, isOwner, validateListing } = require('../middleware.js');
 const { index, renderNewForm, showListing, editListing, showEditListingForm, destroyListing, createListing } = require('../controllers/listings.js');
 
-Router.get("/", wrapAsync(index));
+router.route('/')
+.get( wrapAsync(index))
+.post( isLoggedIn, validateListing, wrapAsync(createListing))
 
-Router.post("/", isLoggedIn, validateListing, wrapAsync(createListing));
 
-Router.get("/new", isLoggedIn, renderNewForm);
+router.get("/new", isLoggedIn, renderNewForm);
 
-Router.get("/:id", wrapAsync(showListing));
 
-Router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync(showEditListingForm));
+router.route('/:id')
+.get(wrapAsync(showListing))
+.put(isLoggedIn, isOwner, wrapAsync(editListing))
+.delete(isLoggedIn, isOwner, wrapAsync(destroyListing))
 
-Router.put("/:id", isLoggedIn, isOwner, wrapAsync(editListing));
 
-Router.delete("/:id", isLoggedIn, isOwner, wrapAsync(destroyListing));
+router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync(showEditListingForm));
 
-module.exports = Router;
+
+module.exports = router;
