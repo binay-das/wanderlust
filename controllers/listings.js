@@ -7,6 +7,9 @@ module.exports.index = async (req, res) => {
 
 module.exports.createListing = async (req, res, next) => {
 
+    let url = req.file.path;
+    let fileName = req.file.filename;
+
     // const result = listingSchema.validate(req.body);
     // console.log(result);
 

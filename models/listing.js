@@ -9,9 +9,8 @@ const listingSchema = new Schema({
     },
     description: String,
     image: {
-        type: String,
-        default: "https://images.pexels.com/photos/27596706/pexels-photo-27596706/free-photo-of-a-street-sign-is-on-the-side-of-a-building.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        set: (v) => v === "" ? "https://images.pexels.com/photos/27596706/pexels-photo-27596706/free-photo-of-a-street-sign-is-on-the-side-of-a-building.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" : v,
+        url: String,
+        fileName: String,
     },
     price: Number,
     location: String,

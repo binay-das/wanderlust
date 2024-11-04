@@ -12,7 +12,7 @@ const multer = require('multer');
 
 router.route('/')
     .get(wrapAsync(index))
-    .post(isLoggedIn, validateListing, wrapAsync(createListing))
+    .post(isLoggedIn, validateListing, upload.single("listing[image"), wrapAsync(createListing))
 
 
 router.get("/new", isLoggedIn, renderNewForm);
