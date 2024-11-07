@@ -5,30 +5,30 @@
             <form method="post" action="/listings/<%= listing._id %>?_method=PUT">
                 <div class="mb-3">
                     <label for="title" class="form-label">Enter title</label>
-                    <input type="text" name="title" placeholder="Title" class="form-control" value = "<%= listing.title %>">
+                    <input type="text" name="listing[title]" placeholder="Title" class="form-control" value = "<%= listing.title %>">
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Enter description</label>
-                    <textarea name="description" id="description" placeholder="Description"
+                    <textarea name="listing[description]" id="description" placeholder="Description"
                         class="form-control"><%= listing.description %></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="img" class="form-label">Enter your image URL</label>
-                    <input type="url" name="image" placeholder="Image URL" id="img" class="form-control" value="<%= listing.image %>" >
+                    <input type="url" name="listing[image]" placeholder="Image URL" id="img" class="form-control" value="<%= listing.image %>" >
                 </div>
 
                 <div class="row">
                     <div class="mb-3 col-md-4">
                         <label for="price" class="form-label">Enter price</label>
-                        <input type="number" name="price" placeholder="Price" id="price" class="form-control" value="<%= listing.price %>">
+                        <input type="number" name="listing[price]" placeholder="Price" id="price" class="form-control" value="<%= listing.price %>">
                     </div>
                     <div class="mb-3 col-md-4">
                         <label for="location" class="form-label">Enter location</label>
-                        <input type="text" name="location" placeholder="Location" id="location" class="form-control" value="<%= listing.location %>">
+                        <input type="text" name="listing[location]" placeholder="Location" id="location" class="form-control" value="<%= listing.location %>">
                     </div>
                     <div class="mb-3 col-md-4">
                         <label for="country" class="form-label">Enter country</label>
-                        <input type="text" name="country" placeholder="Country" id="country" class="form-control" value="<%= listing.country %>">
+                        <input type="text" name="listing[country]" placeholder="Country" id="country" class="form-control" value="<%= listing.country %>">
                     </div>
                 </div>
 

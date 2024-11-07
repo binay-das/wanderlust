@@ -17,17 +17,6 @@ module.exports.createListing = async (req, res, next) => {
     //     throw new ExpressError(400, result.error);
     // }
 
-
-    // let { title, description, image, price, country, location } = req.body;
-    // const newListing = new Listing({
-    //     title: title,
-    //     description: description,
-    //     image: image,
-    //     price: price,
-    //     country: country,
-    //     location: location
-    // });
-
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;
 
@@ -45,8 +34,6 @@ module.exports.createListing = async (req, res, next) => {
     await newListing.save();
     req.flash('success', 'new listing created')
     res.redirect("/listings");
-
-
 }
 
 module.exports.renderNewForm = (req, res) => {
@@ -78,20 +65,10 @@ module.exports.showEditListingForm = async (req, res) => {
 module.exports.editListing = async (req, res) => {
     let { id } = req.params;
 
-    let { title, description, image, price, country, location } = req.body;
-    const editListing = {
-        title: title,
-        description: description,
-        image: image,
-        price: price,
-        country: country,
-        location: location
-    };
-
-    // const editListing = req.body.listing;
-    const updatedListing = await Listing.findByIdAndUpdate(id, editListing, { new: true });
+    const updatedListing = await Listing.findByIdAndUpdate(id, {...req.body.listing}, { new: true });
+    
     req.flash('success', 'listing updated');
-    res.redirect(`/listings/${updatedListing._id}`);
+    res.redirect(`/listings/${id}`);
 }
 
 module.exports.destroyListing = async (req, res) => {

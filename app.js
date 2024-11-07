@@ -20,13 +20,13 @@ const listingRouter = require('./routes/listingRouter.js');
 const reviewRouter = require('./routes/reviewRouter.js');
 const userRouter = require('./routes/userRouter');
 
-
-app.set("view engine", "ejs");
+app.set("view engine", "ejs");      // rendering views
 app.set("views", path.join(__dirname, "views"));
-app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride("_method"));
-app.engine("ejs", ejsMate);
-app.use(express.static(path.join(__dirname, "/public")));
+
+app.use(express.urlencoded({ extended: true }));        // parsing the URL-encoded data and making it available in req.body
+app.use(methodOverride("_method"));     // method-override
+app.engine("ejs", ejsMate);     // layout rendering
+app.use(express.static(path.join(__dirname, "/public")));       // serving static files
 app.use(cookieParser());
 
 
