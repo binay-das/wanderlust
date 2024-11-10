@@ -1,4 +1,5 @@
 const Listing = require("../models/listing");
+const listingSchema = require('../schema');
 
 module.exports.index = async (req, res) => {
     const allListings = await Listing.find({});
@@ -6,7 +7,6 @@ module.exports.index = async (req, res) => {
 }
 
 module.exports.createListing = async (req, res, next) => {
-
     let url = req.file.path;
     let fileName = req.file.filename;
 
@@ -17,19 +17,11 @@ module.exports.createListing = async (req, res, next) => {
     //     throw new ExpressError(400, result.error);
     // }
 
+    if (!req.body.listing) {
+        throw new ExpressError(400, 'Send valid data for a new listing');
+    }
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;
-
-    // if (!newListing.title) {
-    //     throw new ExpressError(400, "Please provide a title");
-    // }
-    // if (!newListing.description) {
-    //     throw new ExpressError(400, "Please provide a description");
-    // }
-    // if (!newListing.location) {
-    //     throw new ExpressError(400, "Please provide a location");
-    // }
-
 
     await newListing.save();
     req.flash('success', 'new listing created')
