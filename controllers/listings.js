@@ -47,13 +47,15 @@ module.exports.showListing = async (req, res) => {
 module.exports.showEditListingForm = async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
-    // if (!listing) throw new ExpressError(404, "Listing Not Found");
     if (!listing) {
         req.flash('error', 'listing you requested not found');
         res.redirect("/listings");
     }
 
-    res.render("listings/edit.ejs", { listing });
+    let originalImageUrl = listing.image.url;
+    originalImageUrl = originalImageUrl.replace("/upload", "/upload/w_250");
+
+    res.render("listings/edit.ejs", { listing, originalImageUrl });
 }
 
 module.exports.editListing = async (req, res) => {
