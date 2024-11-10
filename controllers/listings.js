@@ -8,7 +8,7 @@ module.exports.index = async (req, res) => {
 
 module.exports.createListing = async (req, res, next) => {
     let url = req.file.path;
-    let fileName = req.file.filename;
+    let filename = req.file.filename;
 
     // const result = listingSchema.validate(req.body);
     // console.log(result);
@@ -23,6 +23,8 @@ module.exports.createListing = async (req, res, next) => {
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;
 
+    newListing.image = { url, filename };
+
     await newListing.save();
     req.flash('success', 'new listing created')
     res.redirect("/listings");
@@ -34,7 +36,7 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.showListing = async (req, res) => {
     let { id } = req.params;
-    const listing = await Listing.findById(id).populate({path: 'reviews', populate: {path: 'author'}}).populate('owner');
+    const listing = await Listing.findById(id).populate({ path: 'reviews', populate: { path: 'author' } }).populate('owner');
     if (!listing) {
         req.flash('error', 'listing you requested not found');
         res.redirect("/listings");
@@ -57,8 +59,15 @@ module.exports.showEditListingForm = async (req, res) => {
 module.exports.editListing = async (req, res) => {
     let { id } = req.params;
 
-    const updatedListing = await Listing.findByIdAndUpdate(id, {...req.body.listing}, { new: true });
-    
+    const updatedListing = await Listing.findByIdAndUpdate(id, { ...req.body.listing }, { new: true });
+
+    if (typeof req.file != "undefined") {         // check if file is updated         
+        let url = req.body.path;
+        let filename = req.body.filename;
+        updatedListing.image = { url, filename };
+        await updatedListing.save();
+    }
+
     req.flash('success', 'listing updated');
     res.redirect(`/listings/${id}`);
 }
