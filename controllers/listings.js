@@ -7,28 +7,38 @@ module.exports.index = async (req, res) => {
 }
 
 module.exports.createListing = async (req, res, next) => {
-    let url = req.file.path;
-    let filename = req.file.filename;
+    try {
+        // Debugging logs
+        console.log("req.body:", req.body);
+        console.log("req.file:", req.file);
 
-    // const result = listingSchema.validate(req.body);
-    // console.log(result);
+        // Validate if req.body.listing exists
+        if (!req.body.listing) {
+            throw new ExpressError(400, 'Send valid data for a new listing');
+        }
 
-    // if (result.error) {
-    //     throw new ExpressError(400, result.error);
-    // }
+        // Extract image details
+        const { path: url, filename } = req.file || {};
 
-    if (!req.body.listing) {
-        throw new ExpressError(400, 'Send valid data for a new listing');
+        // Create the new listing
+        const newListing = new Listing(req.body.listing);
+        newListing.owner = req.user._id;
+
+        if (url && filename) {
+            newListing.image = { url, filename };
+        }
+
+        // Save the listing
+        await newListing.save();
+
+        req.flash('success', 'New listing created');
+        res.redirect("/listings");
+    } catch (err) {
+        console.error("Error in createListing:", err);
+        next(err); // Pass the error to the error handler middleware
     }
-    const newListing = new Listing(req.body.listing);
-    newListing.owner = req.user._id;
+};
 
-    newListing.image = { url, filename };
-
-    await newListing.save();
-    req.flash('success', 'new listing created')
-    res.redirect("/listings");
-}
 
 module.exports.renderNewForm = (req, res) => {
     res.render("listings/new.ejs");
@@ -60,12 +70,16 @@ module.exports.showEditListingForm = async (req, res) => {
 
 module.exports.editListing = async (req, res) => {
     let { id } = req.params;
+    console.log("Editing Listing ID:", id);
+    console.log("Request Body:", req.body);
+    console.log("Request Body:", req.body.listing);
+    console.log("Uploaded File:", req.file);
 
     const updatedListing = await Listing.findByIdAndUpdate(id, { ...req.body.listing }, { new: true });
 
     if (typeof req.file != "undefined") {         // check if file is updated         
-        let url = req.body.path;
-        let filename = req.body.filename;
+        let url = req.file.path;
+        let filename = req.file.filename;
         updatedListing.image = { url, filename };
         await updatedListing.save();
     }
