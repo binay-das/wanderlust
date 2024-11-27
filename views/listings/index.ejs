@@ -4,43 +4,43 @@
         <!-- Filters Section -->
         <div class="filters-wrapper flex-grow-1">
             <div class="filters d-flex flex-nowrap">
-                <div class="filter">
+                <div class="filter" data-category="Trending">
                     <i class="fa-solid fa-fire"></i>
                     <p>Trending</p>
                 </div>
-                <div class="filter">
+                <div class="filter" data-category="Rooms">
                     <i class="fa-solid fa-bed"></i>
                     <p>Rooms</p>
                 </div>
-                <div class="filter">
+                <div class="filter" data-category="Iconic cities">
                     <i class="fa-solid fa-mountain-city"></i>
                     <p>Iconic cities</p>
                 </div>
-                <div class="filter">
+                <div class="filter" data-category="Mountains">
                     <i class="fa-solid fa-mountain"></i>
                     <p>Mountains</p>
                 </div>
-                <div class="filter">
+                <div class="filter" data-category="Near Castles"> 
                     <i class="fa-brands fa-fort-awesome"></i>
                     <p>Near Castles</p>
                 </div>
-                <div class="filter">
+                <div class="filter" data-category="Camping">
                     <i class="fa-solid fa-campground"></i>
                     <p>Camping</p>
                 </div>
-                <div class="filter">
+                <div class="filter" data-category="Pools">
                     <i class="fa-solid fa-person-swimming"></i>
                     <p>Pools</p>
                 </div>
-                <div class="filter">
+                <div class="filter" data-category="Arctic">
                     <i class="fa-regular fa-snowflake"></i>
                     <p>Arctic</p>
                 </div>
-                <div class="filter">
+                <div class="filter" data-category="Caves">
                     <i class="fa-solid fa-igloo"></i>
                     <p>Caves</p>
                 </div>
-                <div class="filter">
+                <div class="filter" data-category="Boating">
                     <i class="fa-solid fa-ship"></i>
                     <p>Boating</p>
                 </div>
@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-1">
+    <div class="listing-container row row-cols-lg-4 row-cols-md-3 row-cols-sm-1">
         <% for(let listing of allListings){ %>
             <div class="card col listing-card">
                 <img src="<%= listing.image.url %>" class="card-img-top" alt="listing image" style="height: 16rem;">
