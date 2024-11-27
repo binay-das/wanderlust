@@ -11,18 +11,18 @@
             <div class="navbar-nav ms-auto">
                 <form action="" class="d-flex " role="serach">
                     <input type="search" placeholder="Search for your fav types" class="form-control me-2" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    <button class="search btn btn-outline-success" type="submit">Search</button>
                 </form>
             </div>
             <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="/listings/new">Add new listing</a>
+                <a class="nav-link nav-link-add" href="/listings/new">Add new listing</a>
                 <% if(!currUser) { %>
-                    <a class="nav-link" aria-current="page" href="/signup">SignUp</a>
-                    <a class="nav-link" href="/login">Log In</a>
+                    <a class="nav-link nav-link-btn" aria-current="page" href="/signup">SignUp</a>
+                    <a class="nav-link nav-link-btn" href="/login">Log In</a>
                 <% } %>
                 
                 <% if(currUser) { %>
-                    <a class="nav-link" href="/logout">Log Out</a>
+                    <a class="nav-link nav-link-btn" href="/logout">Log Out</a>
                 <% } %>
 
             </div>
