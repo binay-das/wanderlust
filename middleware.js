@@ -3,7 +3,7 @@ const Review = require('./models/review');
 const ExpressError = require("./utils/ExpressError");
 const { listingSchema, reviewSchema } = require('./schema');
 
-module.exports.isLoggedIn = (req, res, next) => {
+const isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
         req.session.redirectUrl = req.originalUrl;              // saving the redirect url
 
@@ -14,14 +14,14 @@ module.exports.isLoggedIn = (req, res, next) => {
     next();
 }
 
-module.exports.saveRedirectUrl = (req, res, next) => {
+const saveRedirectUrl = (req, res, next) => {
     if (req.session.redirectUrl) {
         res.locals.redirectUrl = req.session.redirectUrl;
     }
     next();
 }
 
-module.exports.isOwner = async (req, res, next) => {
+const isOwner = async (req, res, next) => {
     let { id } = req.params;
 
     let listing = await Listing.findById(id);
@@ -34,7 +34,7 @@ module.exports.isOwner = async (req, res, next) => {
     next();
 }
 
-module.exports.isReviewAuthor = async (req, res, next) => {
+const isReviewAuthor = async (req, res, next) => {
     let { id, reviewId } = req.params;
 
     let review = await Review.findById(reviewId);
@@ -48,9 +48,10 @@ module.exports.isReviewAuthor = async (req, res, next) => {
 }
 
 // Middleware: Validate Listing
-module.exports.validateListing = (req, res, next) => {
+const validateListing = (req, res, next) => {
     let { error } = listingSchema.validate(req.body);
     if (error) {
+        console.log("Validation error: ", error);
         let errorMessage = error.details.map((el) => el.message).join(', ');
         throw new ExpressError(400, errorMessage);
 
@@ -60,7 +61,7 @@ module.exports.validateListing = (req, res, next) => {
 }
 
 // Middleware: Validate Review
-module.exports.validateReview = (req, res, next) => {
+const validateReview = (req, res, next) => {
     let { error } = reviewSchema.validate(req.body);
     if (error) {
         let errorMessage = error.details.map((el) => el.message).join(', ');
@@ -69,4 +70,15 @@ module.exports.validateReview = (req, res, next) => {
     } else {
         next();
     }
+}
+
+
+
+module.exports = {
+    isLoggedIn,
+    saveRedirectUrl,
+    isOwner,
+    isReviewAuthor,
+    validateListing,
+    validateReview,
 }
