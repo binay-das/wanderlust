@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 * {
     font-family: "poppins";
 }
@@ -17,16 +18,33 @@ body {
 .navbar {
     height: 5rem;
     background-color: #ffffff;
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+    z-index: 1050;
 }
+.navbar-collapse {
+    background-color: #ffffff;
+}
+.navbar-collapse.show {
+    background-color: #ffffff; /* Ensure dropdown menu stays opaque */
+}
+
 
 .fa-compass {
     color: #fe424d;
     font-size: 2rem;
 }
 
-.nav-link {
-    color: #222222 !important;
+.search {
+    color: #fe424d !important;
+    border-color: #fe424d !important;
 }
+.search:hover {
+    background-color: #fe424d !important;
+    color: white !important;
+}
+
+
 
 .f-info {
     display: flex;
@@ -142,12 +160,16 @@ body {
 
 .show-card {
     border-radius: 4px;
-    height: 24rem;
-    width: 64%;
+    width: 100%;
+    object-fit: cover;
 }
 
 .price {
     margin-bottom: 2rem !important;
+}
+
+.orignal-img img {
+    width: 50%;
 }
 
 .show-btns {
@@ -189,7 +211,6 @@ body {
 
 .main-part {
     display: flex;
-    border: 1px solid red;
     justify-content: space-between;
 }
 
@@ -198,11 +219,130 @@ body {
     font-size: large;
 }
 
-.reviews {
-    border: 1px solid black;
-}
+
 
 .form-check-input:checked {
     background-color: #fe424d !important;
     border-color: #fe424d !important;
+}
+
+.toggle {
+    /* border: 1px solid gray; */
+    padding: 8px;
+}
+
+/* For small screens below 500px */
+@media (max-width: 500px) {
+    .listing-container {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .listing {
+        font-size: 14px;
+        overflow-wrap: break-word;
+        margin-bottom: 15px;
+    }
+
+    .filters-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .filter-btn {
+        font-size: 12px;
+        padding: 8px;
+    }
+}
+
+
+
+.show-btns a,
+.form-delete button {
+    margin-right: 10px;
+}
+
+.reviews .card-body {
+    padding: 15px;
+}
+
+.starability-slot input {
+    display: none;
+}
+
+/* Custom Stars Rating */
+.starability-result {
+    font-size: 1.2rem;
+    color: #FFD700;
+}
+
+.main-part {
+    display: flex;
+    width: 100% !important;
+}
+
+@media (max-width: 768px) {
+
+    .listing-card,
+    .reviews .col-md-5 {
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 15px;
+    }
+}
+@media (max-width: 790px) {
+    .main-part {
+        flex-direction: column;
+    }
+}
+@media (max-width: 500px) {
+    .main-part {
+        padding: 15px;
+    }
+}
+@media (max-width: 1200px) {
+    .reviews .col-md-5 {
+        width: 90%;
+    }
+}
+@media (min-width: 950px) {
+    .show-card {
+        width: 70%;
+        height: 400px;
+    }
+}
+@media (min-width: 780px) {
+    .nav-link-btn {
+        margin-left: 20px !important;
+    }
+}
+
+
+.nav-link {
+    color: #222222 !important;
+}
+.nav-link-btn {
+    padding: 0.5rem 1rem !important;
+    border-radius: 4px !important;
+    border: 1px solid #fe424d !important;
+    color: #fe424d !important;
+    transition: background-color 0.3s ease !important;
+
+}
+.nav-link-btn:hover {
+    background-color: #fe424d !important;
+    color: white !important;
+}
+
+.nav-link-add {
+    padding: 0.5rem 1rem !important;
+    border-radius: 4px !important;
+    border: 1px solid #0d6dfd !important;
+    color: #0d6dfd !important;
+}
+.nav-link-add:hover {
+    color: white !important;
+    background-color: #0d6dfd !important;
 }
