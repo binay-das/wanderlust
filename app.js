@@ -23,6 +23,7 @@ const userRouter = require('./routes/userRouter');
 app.set("view engine", "ejs");      // rendering views
 app.set("views", path.join(__dirname, "views"));
 
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));        // parsing the URL-encoded data and making it available in req.body
 app.use(methodOverride("_method"));     // method-override
 app.engine("ejs", ejsMate);     // layout rendering
@@ -31,7 +32,10 @@ app.use(cookieParser());
 
 
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const MONGO_URL = process.env.MONGO_URI;
+async function main() {
+    await mongoose.connect(MONGO_URL);
+}
 main()
     .then(() => {
         console.log(`Connected to DB`);
@@ -39,20 +43,23 @@ main()
     .catch((err) => {
         console.log(err);
     })
-async function main() {
-    await mongoose.connect(MONGO_URL);
-}
 
 const sessionOptions = {
-    secret: '',
+    secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: {
+        expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        // sameSite: 'none',
+        httpOnly: true,
+    }
 }
 
 
-app.get("/", (req, res) => {
-    res.send(`Hi, I'm root`);
-});
+// app.get("/", (req, res) => {
+//     res.render("listings/homePage.ejs");
+// });
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -81,7 +88,7 @@ app.all('*', (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-    let { statusCode, message } = err;
+    let { statusCode = 500, message = 'Something went wrong' } = err;
     res.status(statusCode).render("error.ejs", { err });
     // res.status(statusCode).send({ message });
 });
