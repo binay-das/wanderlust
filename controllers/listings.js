@@ -1,17 +1,12 @@
 const Listing = require("../models/listing");
-const listingSchema = require('../schema');
 
-module.exports.index = async (req, res) => {
+const index = async (req, res) => {
     const allListings = await Listing.find({});
     res.render("listings/index.ejs", { allListings });
 }
 
-module.exports.createListing = async (req, res, next) => {
+const createListing = async (req, res, next) => {
     try {
-        // Debugging logs
-        console.log("req.body:", req.body);
-        console.log("req.file:", req.file);
-
         // Validate if req.body.listing exists
         if (!req.body.listing) {
             throw new ExpressError(400, 'Send valid data for a new listing');
@@ -40,11 +35,11 @@ module.exports.createListing = async (req, res, next) => {
 };
 
 
-module.exports.renderNewForm = (req, res) => {
+const renderNewForm = (req, res) => {
     res.render("listings/new.ejs");
 }
 
-module.exports.showListing = async (req, res) => {
+const showListing = async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id).populate({ path: 'reviews', populate: { path: 'author' } }).populate('owner');
     if (!listing) {
@@ -54,7 +49,7 @@ module.exports.showListing = async (req, res) => {
     res.render("listings/show.ejs", { listing });
 }
 
-module.exports.showEditListingForm = async (req, res) => {
+const showEditListingForm = async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
     if (!listing) {
@@ -68,16 +63,14 @@ module.exports.showEditListingForm = async (req, res) => {
     res.render("listings/edit.ejs", { listing, originalImageUrl });
 }
 
-module.exports.editListing = async (req, res) => {
+const editListing = async (req, res) => {
     let { id } = req.params;
-    console.log("Editing Listing ID:", id);
-    console.log("Request Body:", req.body);
-    console.log("Request Body:", req.body.listing);
-    console.log("Uploaded File:", req.file);
 
-    const updatedListing = await Listing.findByIdAndUpdate(id, { ...req.body.listing }, { new: true });
+    const updatedListing = await Listing.findByIdAndUpdate(id, { ...req.body.listing }, {new: true});
+    console.log("Listing: ", req.body.listing)
+    console.log("Updated Listing:", updatedListing);
 
-    if (typeof req.file != "undefined") {         // check if file is updated         
+    if (typeof req.file !== "undefined") {         // check if file is updated         
         let url = req.file.path;
         let filename = req.file.filename;
         updatedListing.image = { url, filename };
@@ -88,11 +81,21 @@ module.exports.editListing = async (req, res) => {
     res.redirect(`/listings/${id}`);
 }
 
-module.exports.destroyListing = async (req, res) => {
+const destroyListing = async (req, res) => {
     let { id } = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id);
     console.log(deletedListing);
     req.flash('success', 'listing deleted');
     res.redirect("/listings");
 
+}
+
+module.exports = {
+    index,
+    createListing,
+    renderNewForm,
+    showListing,
+    showEditListingForm,
+    editListing,
+    destroyListing,
 }
