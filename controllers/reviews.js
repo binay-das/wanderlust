@@ -1,10 +1,10 @@
 const Listing = require("../models/listing");
 const Review = require("../models/review");
 
-module.exports.createReview = async (req, res) => {
+const createReview = async (req, res) => {
     try {
         let listing = await Listing.findById(req.params.id);
-        let newReview = new review(req.body.review);
+        let newReview = new Review(req.body.review);
         newReview.author = req.user._id;
 
         listing.reviews.push(newReview);
@@ -22,7 +22,7 @@ module.exports.createReview = async (req, res) => {
     }
 }
 
-module.exports.destroyReview = async (req, res) => {
+const destroyReview = async (req, res) => {
     let { id, reviewId } = req.params;
     await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });  // the review is removed from the listing
     // '$pull' operator removes form an exising array of all instances of a value that match a specified condition
@@ -31,4 +31,9 @@ module.exports.destroyReview = async (req, res) => {
 
     req.flash('success', 'review deleted')
     res.redirect(`/listings/${id}`);
+}
+
+module.exports = {
+    createReview,
+    destroyReview
 }
