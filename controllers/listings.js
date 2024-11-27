@@ -1,4 +1,5 @@
 const Listing = require("../models/listing");
+const cloudinary = require('cloudinary').v2;
 
 const index = async (req, res) => {
     const allListings = await Listing.find({});
@@ -66,14 +67,29 @@ const showEditListingForm = async (req, res) => {
 const editListing = async (req, res) => {
     let { id } = req.params;
 
-    const updatedListing = await Listing.findByIdAndUpdate(id, { ...req.body.listing }, {new: true});
+    const updatedListing = await Listing.findByIdAndUpdate(id, { ...req.body.listing }, { new: true });
     console.log("Listing: ", req.body.listing)
     console.log("Updated Listing:", updatedListing);
 
-    if (typeof req.file !== "undefined") {         // check if file is updated         
+    if (typeof req.file !== "undefined") {
+        if (updatedListing.image && updatedListing.image.filename) {
+            // Safely delete the old image
+            try {
+                await cloudinary.uploader.destroy(updatedListing.image.filename);
+                console.log(`Deleted old image: ${updatedListing.image.filename}`);
+            } catch (err) {
+                console.error(`Failed to delete old image: ${err.message}`);
+            }
+        }
+        
+        
         let url = req.file.path;
         let filename = req.file.filename;
-        updatedListing.image = { url, filename };
+        
+        updatedListing.image = { 
+            url, filename 
+        };
+
         await updatedListing.save();
     }
 
@@ -84,6 +100,14 @@ const editListing = async (req, res) => {
 const destroyListing = async (req, res) => {
     let { id } = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id);
+    if (!deletedListing) {
+        req.flash('error', 'Listing not found');
+        return res.redirect('/listings');
+    }
+    if (deletedListing.image && deletedListing.image.filename) {
+        await cloudinary.uploader.destroy(deletedListing.image.filename);
+        console.log(`Deleted image from Cloudinary: ${deletedListing.image.filename}`);
+    }
     console.log(deletedListing);
     req.flash('success', 'listing deleted');
     res.redirect("/listings");
