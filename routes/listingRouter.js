@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const wrapAsync = require('../utils/wrapAsync');
 
-const multer = require('multer');
+const multer = require('multer');       // handling multipart / form data
 const { storage } = require('../cloudConfig.js');
 const upload = multer({ storage });
 
@@ -11,7 +11,11 @@ const { index, renderNewForm, showListing, editListing, showEditListingForm, des
 
 router.route('/')
     .get(wrapAsync(index))
-    .post(isLoggedIn, validateListing, upload.single("listing[image"), wrapAsync(createListing))
+    .post(isLoggedIn,
+        upload.single("listing[image]"),
+        validateListing,
+        wrapAsync(createListing)
+    )
 
 
 router.get("/new", isLoggedIn, renderNewForm);
@@ -19,7 +23,13 @@ router.get("/new", isLoggedIn, renderNewForm);
 
 router.route('/:id')
     .get(wrapAsync(showListing))
-    .put(isLoggedIn, isOwner, wrapAsync(editListing))
+    .put(isLoggedIn, 
+        isOwner, 
+        upload.single("listing[image]"),
+        validateListing,
+        wrapAsync(editListing)
+    )
+
     .delete(isLoggedIn, isOwner, wrapAsync(destroyListing))
 
 
