@@ -7,6 +7,7 @@ const ejsMate = require('ejs-mate');
 const ExpressError = require('./utils/ExpressError.js');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
@@ -44,17 +45,30 @@ main()
         console.log(err);
     })
 
+const store = MongoStore.create({
+    mongoUrl: MONGO_URL,
+    crypto: {
+        secret: process.env.SECRET
+    },
+    touchAfter: 24 * 60 * 60
+});
+
+store.on("error", () => {
+    console.log("Error in Mongo Session Store");
+});
+
 const sessionOptions = {
-    secret: process.env.SESSION_SECRET,
+    store,
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
         expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
         maxAge: 7 * 24 * 60 * 60 * 1000,
-        // sameSite: 'none',
         httpOnly: true,
     }
 }
+
 
 app.use(session(sessionOptions));
 app.use(flash());
