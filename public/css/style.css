@@ -346,3 +346,64 @@ body {
     color: white !important;
     background-color: #0d6dfd !important;
 }
+
+
+
+
+
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+        url('https://cdn.pixabay.com/photo/2019/05/28/00/15/indoors-4234071_1280.jpg') center/cover no-repeat;
+    height: 100vh;
+}
+
+.content {
+    max-width: 600px;
+}
+
+.explore-btn {
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+}
+
+.cta-section {
+    background: #f8f9fa;
+}
+
+.cta-section a {
+    padding: 0.6rem 1.8rem;
+    font-size: 1.2rem;
+}
+
+.explore-lg-btn {
+    border: 1px solid #fe424d !important;
+    /* color: #fe424d !important; */
+}
+.explore-lg-btn:hover {
+    background-color: #fe424d !important;
+    color: white !important;
+    transition: 0.2s linear;
+}
+.gradient-text {
+    background: linear-gradient(to right, #f89aa0, #fe424d); 
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+
+@media (min-width: 501px) and (max-width: 577px) {
+    .listing-container {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .listing {
+        font-size: 14px;
+        overflow-wrap: break-word;
+        margin-bottom: 15px;
+    }
+
+}
