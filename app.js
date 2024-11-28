@@ -89,7 +89,7 @@ app.use((req, res, next) => {
 
 
 app.get("/", (req, res) => {
-    res.render("listings/homePage.ejs");
+    res.render("listings/homepage.ejs");
 });
 
 app.use("/listings", listingRouter);
