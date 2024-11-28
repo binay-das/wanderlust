@@ -48,35 +48,39 @@
         </div>
 
         <hr>
-
-        <% if(listing.reviews.length) {%>
-            <div class="reviews">
-                <h3 class="mb-3">All reviews for this place</h3>
-                <div class="row review">
-                    <% for(review of listing.reviews) {%>
-                        <div class="col-12 col-md-5 ms-3 mb-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">@<%= review.author.username %>
-                                    </h5>
-                                    <p class="starability-result card-text" data-rating="<%= review.rating %>"></p>
-                                    <p class="card-text mb-3">
-                                        <%= review.comment %>
-                                    </p>
-                                </div>
-                                <% if(currUser && currUser._id.equals(review.author._id)) {%>
-                                    <form method="post"
-                                        action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
-                                        class="mb-3">
-                                        <button class="btn btn-dark btn-sm">Delete</button>
-                                    </form>
-                                    <% } %>
-                            </div>
-                        </div>
-                    <% } %>
-                </div>
-            </div>
+        <% if (listing.reviews.length===0) { %>
+            <h5 class="text-muted">No reviews yet. Be the first to share your thoughts!</h5>
             <% } %>
+
+                <% if(listing.reviews.length) {%>
+                    <div class="reviews">
+                        <h3 class="mb-3">All reviews for this place</h3>
+                        <div class="row review">
+                            <% for(review of listing.reviews) {%>
+                                <div class="col-12 col-md-5 ms-3 mb-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">@<%= review.author.username %>
+                                            </h5>
+                                            <p class="starability-result card-text" data-rating="<%= review.rating %>">
+                                            </p>
+                                            <p class="card-text mb-3">
+                                                <%= review.comment %>
+                                            </p>
+                                        </div>
+                                        <% if(currUser && currUser._id.equals(review.author._id)) {%>
+                                            <form method="post"
+                                                action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                                class="mb-3">
+                                                <button class="btn btn-dark btn-sm">Delete</button>
+                                            </form>
+                                            <% } %>
+                                    </div>
+                                </div>
+                                <% } %>
+                        </div>
+                    </div>
+                    <% } %>
     </div>
     <hr>
 
