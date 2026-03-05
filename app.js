@@ -37,7 +37,10 @@ app.use(cookieParser());
 
 const MONGO_URL = process.env.MONGO_URI;
 async function main() {
-    await mongoose.connect(MONGO_URL);
+    await mongoose.connect(MONGO_URL, {
+        serverSelectionTimeoutMS: 10000,
+        socketTimeoutMS: 45000,
+    });
 }
 main()
     .then(() => {
@@ -46,6 +49,10 @@ main()
     .catch((err) => {
         console.error('MongoDB connection failed:', err.message);
     })
+
+mongoose.connection.on('error', (err) => {
+    console.error('MongoDB connection error:', err.message);
+});
 
 const store = MongoStore.create({
     mongoUrl: MONGO_URL,
