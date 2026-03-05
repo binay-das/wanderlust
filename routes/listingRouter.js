@@ -3,8 +3,8 @@ const router = express.Router();
 const wrapAsync = require('../utils/wrapAsync');
 
 const multer = require('multer');       // handling multipart / form data
-const { storage } = require('../cloudConfig.js');
-const upload = multer({ storage });
+const { storage, imageFileFilter } = require('../cloudConfig.js');
+const upload = multer({ storage, fileFilter: imageFileFilter });
 
 const { isLoggedIn, isOwner, validateListing } = require('../middleware.js');
 const { index, renderNewForm, showListing, editListing, showEditListingForm, destroyListing, createListing } = require('../controllers/listings.js');
@@ -23,8 +23,8 @@ router.get("/new", isLoggedIn, renderNewForm);
 
 router.route('/:id')
     .get(wrapAsync(showListing))
-    .put(isLoggedIn, 
-        isOwner, 
+    .put(isLoggedIn,
+        isOwner,
         upload.single("listing[image]"),
         validateListing,
         wrapAsync(editListing)

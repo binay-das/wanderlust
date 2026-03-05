@@ -11,11 +11,19 @@ const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
         folder: 'wanderlust_development',
-        allowed_formats: ['png', 'jpg', 'jpeg'],
+        allowed_formats: ['png', 'jpg', 'jpeg', 'gif', 'webp'],
     },
 });
 
+const imageFileFilter = (req, file, cb) => {
+    if (!file.mimetype.startsWith('image/')) {
+        return cb(new Error('Only image files are allowed (jpeg, png, gif, webp)'), false);
+    }
+    cb(null, true);
+};
+
 module.exports = {
-    cloudinary, 
-    storage
+    cloudinary,
+    storage,
+    imageFileFilter
 }
