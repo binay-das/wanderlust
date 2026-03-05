@@ -4,16 +4,15 @@ const renderSignUpForm = (req, res) => {
     res.render('users/signup.ejs');
 }
 
-const signup = async (req, res) => {
+const signup = async (req, res, next) => {
     try {
         let { username, email, password } = req.body;
         const newUser = new User({ email, username });
 
         const registeredUser = await User.register(newUser, password);
-        console.log(registeredUser);
 
         req.login(registeredUser, (err) => {
-            if(err) {
+            if (err) {
                 return next(err);
             }
             req.flash('success', 'You have been successfully registered!');
@@ -21,9 +20,13 @@ const signup = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
-        req.flash('error', error.message);
-        req.flash('error', error);
+        
+        if (error.name === 'UserExistsError') {
+            req.flash('error', 'A user with that username already exists.');
+        } else {
+            req.flash('error', 'Registration failed. Please try again.');
+            console.error('Signup error:', error.message);
+        }
         res.redirect('/signup');
     }
 }
@@ -43,16 +46,10 @@ const logout = (req, res, next) => {
         if (err) {
             return next(err);
         }
-        console.log("logged out successfully");
         req.flash('success', 'Logged out successfully');
         res.redirect('/listings');
     });
 }
-
-
-
-
-
 
 module.exports = {
     renderSignUpForm,
