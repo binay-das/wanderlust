@@ -45,7 +45,7 @@ const showListing = async (req, res) => {
     const listing = await Listing.findById(id).populate({ path: 'reviews', populate: { path: 'author' } }).populate('owner');
     if (!listing) {
         req.flash('error', 'listing you requested not found');
-        res.redirect("/listings");
+        return res.redirect("/listings");
     }
     res.render("listings/show.ejs", { listing });
 }
@@ -55,7 +55,7 @@ const showEditListingForm = async (req, res) => {
     const listing = await Listing.findById(id);
     if (!listing) {
         req.flash('error', 'listing you requested not found');
-        res.redirect("/listings");
+        return res.redirect("/listings");
     }
 
     let originalImageUrl = listing.image.url;
@@ -81,13 +81,13 @@ const editListing = async (req, res) => {
                 console.error(`Failed to delete old image: ${err.message}`);
             }
         }
-        
-        
+
+
         let url = req.file.path;
         let filename = req.file.filename;
-        
-        updatedListing.image = { 
-            url, filename 
+
+        updatedListing.image = {
+            url, filename
         };
 
         await updatedListing.save();
