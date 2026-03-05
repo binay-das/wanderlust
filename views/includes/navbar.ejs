@@ -1,34 +1,248 @@
-<nav class="navbar navbar-expand-lg bg-body-light border-bottom sticky-top">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/"><i class="fa-solid fa-compass"></i></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-link" href="/">Home</a>
-            </div>
-            <div class="navbar-nav">
-                <a class="nav-link" href="/listings">Explore places</a>
-            </div>
-            <div class="navbar-nav ms-auto">
-                <form action="" class="d-flex " role="serach">
-                    <input type="search" placeholder="Search for your fav types" class="form-control me-2" aria-label="Search">
-                    <button class="search btn btn-outline-success" type="submit">Search</button>
-                </form>
-            </div>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link nav-link-add" href="/listings/new">Add new listing</a>
-                <% if(!currUser) { %>
-                    <a class="nav-link nav-link-btn" aria-current="page" href="/signup">SignUp</a>
-                    <a class="nav-link nav-link-btn" href="/login">Log In</a>
-                <% } %>
-                
-                <% if(currUser) { %>
-                    <a class="nav-link nav-link-btn" href="/logout">Log Out</a>
-                <% } %>
+<nav class="wl-navbar">
+    <div class="wl-nav-inner">
 
+
+        <a class="wl-brand" href="/">
+            <i class="fa-solid fa-compass"></i>
+            <span>Wanderlust</span>
+        </a>
+
+
+        <div class="wl-nav-links" id="wlNavLinks">
+            <a href="/" class="wl-nav-link">Home</a>
+            <a href="/listings" class="wl-nav-link">Explore</a>
+        </div>
+
+        <div class="wl-nav-right">
+            <div class="wl-search-pill">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="search" placeholder="Search places..." aria-label="Search">
             </div>
+
+
+            <% if(!currUser) { %>
+                <a href="/signup" class="wl-btn wl-btn-ghost">Sign Up</a>
+                <a href="/login" class="wl-btn wl-btn-primary">Log In</a>
+                <% } %>
+                    <% if(currUser) { %>
+                        <a href="/listings/new" class="wl-btn wl-btn-ghost">+ Add Listing</a>
+                        <a href="/logout" class="wl-btn wl-btn-primary">Log Out</a>
+                        <% } %>
+                            <% if(!currUser) { %>
+                                <a href="/listings/new" class="wl-btn wl-btn-add d-none d-lg-inline-flex">+ Add
+                                    Listing</a>
+                                <% } %>
+
+
+
+
+                                <button class="wl-hamburger" id="wlHamburger" aria-label="Toggle menu">
+                                        <span></span><span></span><span></span>
+                                    </button>
         </div>
     </div>
 </nav>
+
+<style>
+    .wl-navbar {
+        position: sticky;
+        top: 0;
+        z-index: 1050;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+        padding: 0 2rem;
+        height: 64px;
+        display: flex;
+        align-items: center;
+    }
+
+    .wl-nav-inner {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        gap: 1.5rem;
+    }
+
+    .wl-brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: #1a1a1a;
+        flex-shrink: 0;
+    }
+
+    .wl-brand .fa-compass {
+        color: #fe424d;
+        font-size: 1.5rem;
+    }
+
+    .wl-brand:hover {
+        color: #fe424d;
+    }
+
+    .wl-nav-links {
+        display: flex;
+        gap: 0.2rem;
+        margin-right: auto;
+    }
+
+    .wl-nav-link {
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-size: 0.92rem;
+        font-weight: 500;
+        color: #444;
+        text-decoration: none;
+        transition: background 0.2s, color 0.2s;
+    }
+
+    .wl-nav-link:hover {
+        background: #f5f5f5;
+        color: #1a1a1a;
+    }
+
+    .wl-nav-right {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-left: auto;
+    }
+
+    .wl-search-pill {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #f5f5f5;
+        border: 1.5px solid #e8e8e8;
+        border-radius: 30px;
+        padding: 6px 14px;
+        transition: border-color 0.2s;
+    }
+
+    .wl-search-pill:focus-within {
+        border-color: #fe424d;
+    }
+
+    .wl-search-pill i {
+        color: #aaa;
+        font-size: 0.85rem;
+    }
+
+    .wl-search-pill input {
+        border: none;
+        background: transparent;
+        outline: none;
+        font-size: 0.88rem;
+        color: #333;
+        width: 160px;
+    }
+
+    .wl-search-pill input::placeholder {
+        color: #bbb;
+    }
+
+    .wl-btn {
+        padding: 7px 16px;
+        border-radius: 8px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition: all 0.2s;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .wl-btn-ghost {
+        background: transparent;
+        border: 1.5px solid #ddd;
+        color: #444;
+    }
+
+    .wl-btn-ghost:hover {
+        border-color: #333;
+        color: #111;
+        background: #f5f5f5;
+    }
+
+    .wl-btn-primary {
+        background: #fe424d;
+        border: 1.5px solid #fe424d;
+        color: #fff;
+    }
+
+    .wl-btn-primary:hover {
+        background: #d63030;
+        border-color: #d63030;
+        color: #fff;
+    }
+
+    .wl-btn-add {
+        background: transparent;
+        border: 1.5px solid #0d6efd;
+        color: #0d6efd;
+    }
+
+    .wl-btn-add:hover {
+        background: #0d6efd;
+        color: #fff;
+    }
+
+    .wl-hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        flex-shrink: 0;
+    }
+
+    .wl-hamburger span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: #333;
+        border-radius: 2px;
+        transition: all 0.3s;
+    }
+
+    @media (max-width: 768px) {
+
+        .wl-search-pill,
+        .wl-nav-links {
+            display: none;
+        }
+
+        .wl-hamburger {
+            display: flex;
+        }
+
+        .wl-btn-add {
+            display: none !important;
+        }
+
+        .wl-search-pill input {
+            width: 120px;
+        }
+    }
+
+    @media (max-width: 500px) {
+        .wl-navbar {
+            padding: 0 1rem;
+        }
+
+        .wl-btn {
+            padding: 6px 11px;
+            font-size: 0.82rem;
+        }
+    }
+</style>
