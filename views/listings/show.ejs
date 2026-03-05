@@ -1,411 +1,545 @@
 <%= layout('/layouts/boilerplate') %>
 
-<style>
-  /* ── Show Page Overrides ── */
-  body { background-color: #f7f5f2; }
+    <style>
+        /* ── Show Page Overrides ── */
+        body {
+            background-color: #f7f5f2;
+        }
 
-  .show-hero {
-    position: relative;
-    width: 100%;
-    height: 420px;
-    border-radius: 20px;
-    overflow: hidden;
-    margin-bottom: 2rem;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-  }
-  .show-hero img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.5s ease;
-  }
-  .show-hero:hover img { transform: scale(1.03); }
-  .show-hero-badge {
-    position: absolute;
-    bottom: 18px; left: 20px;
-    background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(8px);
-    padding: 6px 14px;
-    border-radius: 30px;
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: #333;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-  .show-hero-badge i { color: #fe424d; margin-right: 5px; }
+        .show-hero {
+            position: relative;
+            width: 100%;
+            height: 420px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+        }
 
-  /* ── Info Grid ── */
-  .show-grid {
-    display: grid;
-    grid-template-columns: 1fr 340px;
-    gap: 2rem;
-    align-items: start;
-  }
-  @media (max-width: 860px) {
-    .show-grid { grid-template-columns: 1fr; }
-  }
+        .show-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
 
-  /* ── Main Info Card ── */
-  .show-info-card {
-    background: #fff;
-    border-radius: 18px;
-    padding: 2rem 2rem 1.5rem;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-  }
-  .show-title {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin-bottom: 0.25rem;
-    line-height: 1.2;
-  }
-  .show-location {
-    color: #777;
-    font-size: 0.95rem;
-    margin-bottom: 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  .show-location i { color: #fe424d; }
-  .show-owner {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: #fdf1f2;
-    border-radius: 10px;
-    padding: 10px 15px;
-    margin-bottom: 1.4rem;
-  }
-  .show-owner-avatar {
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    background: #fe424d;
-    display: flex; align-items: center; justify-content: center;
-    color: white; font-weight: 700; font-size: 1rem;
-    flex-shrink: 0;
-  }
-  .show-owner-name { font-size: 0.9rem; color: #444; }
-  .show-owner-name span { font-weight: 600; color: #222; }
+        .show-hero:hover img {
+            transform: scale(1.03);
+        }
 
-  .show-desc-label {
-    font-size: 0.78rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #999;
-    margin-bottom: 0.3rem;
-  }
-  .show-desc {
-    font-size: 1rem;
-    color: #333;
-    line-height: 1.7;
-    margin-bottom: 1.4rem;
-  }
-  .show-divider {
-    border: none;
-    border-top: 1px solid #f0f0f0;
-    margin: 1.2rem 0;
-  }
-  .show-action-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1rem; }
-  .btn-edit-listing {
-    padding: 0.55rem 1.4rem;
-    border-radius: 8px;
-    font-size: 0.92rem;
-    font-weight: 600;
-    border: 2px solid #222;
-    color: #222;
-    background: transparent;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-  .btn-edit-listing:hover { background: #222; color: #fff; }
-  .btn-delete-listing {
-    padding: 0.55rem 1.4rem;
-    border-radius: 8px;
-    font-size: 0.92rem;
-    font-weight: 600;
-    border: 2px solid #fe424d;
-    color: #fe424d;
-    background: transparent;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .btn-delete-listing:hover { background: #fe424d; color: #fff; }
+        .show-hero-badge {
+            position: absolute;
+            bottom: 18px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #333;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
 
-  /* ── Price Sticky Card ── */
-  .price-card {
-    background: #fff;
-    border-radius: 18px;
-    padding: 1.6rem;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 90px;
-  }
-  .price-amount {
-    font-size: 2rem;
-    font-weight: 800;
-    color: #1a1a1a;
-  }
-  .price-amount span { font-size: 1rem; font-weight: 400; color: #888; }
-  .price-tag {
-    font-size: 0.8rem;
-    color: #888;
-    margin-bottom: 1.2rem;
-  }
-  .reserve-btn {
-    display: block;
-    width: 100%;
-    padding: 0.8rem;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #fe424d, #ff6b6b);
-    color: #fff;
-    font-weight: 700;
-    font-size: 1rem;
-    text-align: center;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    transition: opacity 0.2s;
-    margin-bottom: 0.8rem;
-  }
-  .reserve-btn:hover { opacity: 0.9; color: #fff; }
-  .price-note {
-    font-size: 0.78rem;
-    color: #aaa;
-    text-align: center;
-  }
-  .price-breakdown {
-    margin-top: 1.2rem;
-    border-top: 1px solid #f0f0f0;
-    padding-top: 1rem;
-  }
-  .price-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.88rem;
-    color: #555;
-    margin-bottom: 0.4rem;
-  }
-  .price-row.total { font-weight: 700; color: #111; font-size: 0.95rem; margin-top: 0.6rem; border-top: 1px solid #eee; padding-top: 0.6rem; }
+        .show-hero-badge i {
+            color: #fe424d;
+            margin-right: 5px;
+        }
 
-  /* ── Reviews ── */
-  .reviews-section { margin-top: 2.5rem; }
-  .reviews-heading {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin-bottom: 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .reviews-heading i { color: #fe424d; }
-  .review-card {
-    background: #fff;
-    border-radius: 14px;
-    padding: 1.2rem 1.4rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    transition: transform 0.2s;
-  }
-  .review-card:hover { transform: translateY(-2px); }
-  .review-avatar {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #fe424d, #ff9a9e);
-    display: flex; align-items: center; justify-content: center;
-    color: white; font-weight: 700; font-size: 0.9rem;
-    flex-shrink: 0;
-  }
-  .review-username { font-weight: 600; font-size: 0.92rem; color: #222; }
-  .review-comment { font-size: 0.9rem; color: #555; margin-top: 0.4rem; line-height: 1.6; }
-  .review-stars { color: #FFD700; font-size: 0.85rem; }
-  .review-delete-btn {
-    font-size: 0.78rem;
-    color: #ccc;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    transition: color 0.2s;
-  }
-  .review-delete-btn:hover { color: #fe424d; }
+        /* ── Info Grid ── */
+        .show-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            align-items: start;
+        }
 
-  /* ── Leave Review Form ── */
-  .review-form-card {
-    background: #fff;
-    border-radius: 18px;
-    padding: 1.8rem;
-    margin-top: 1.5rem;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-  }
-  .review-form-heading {
-    font-size: 1rem;
-    font-weight: 700;
-    color: #222;
-    margin-bottom: 1rem;
-  }
-  .form-control:focus {
-    border-color: #fe424d;
-    box-shadow: 0 0 0 3px rgba(254,66,77,0.12);
-  }
-  .btn-submit-review {
-    background: #fe424d;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 0.55rem 1.5rem;
-    font-weight: 600;
-    transition: background 0.2s;
-  }
-  .btn-submit-review:hover { background: #d63030; }
-</style>
+        @media (max-width: 860px) {
+            .show-grid {
+                grid-template-columns: 1fr;
+            }
+        }
 
-<div class="show-hero mt-4">
-  <img src="<%= listing.image.url %>" alt="<%= listing.title %>">
-  <div class="show-hero-badge">
-    <i class="fa fa-map-marker-alt"></i>
-    <%= listing.location %>, <%= listing.country %>
-  </div>
-</div>
+        /* ── Main Info Card ── */
+        .show-info-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 2rem 2rem 1.5rem;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+        }
 
-<div class="show-grid mb-5">
+        .show-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 0.25rem;
+            line-height: 1.2;
+        }
 
-  <div>
-    <div class="show-info-card">
-      <h1 class="show-title"><%= listing.title %></h1>
-      <div class="show-location">
-        <i class="fa fa-map-marker-alt"></i>
-        <%= listing.location %>, <%= listing.country %>
-      </div>
+        .show-location {
+            color: #777;
+            font-size: 0.95rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-      <div class="show-owner">
-        <div class="show-owner-avatar">
-          <%= listing.owner.username.charAt(0).toUpperCase() %>
+        .show-location i {
+            color: #fe424d;
+        }
+
+        .show-owner {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #fdf1f2;
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 1.4rem;
+        }
+
+        .show-owner-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #fe424d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .show-owner-name {
+            font-size: 0.9rem;
+            color: #444;
+        }
+
+        .show-owner-name span {
+            font-weight: 600;
+            color: #222;
+        }
+
+        .show-desc-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #999;
+            margin-bottom: 0.3rem;
+        }
+
+        .show-desc {
+            font-size: 1rem;
+            color: #333;
+            line-height: 1.7;
+            margin-bottom: 1.4rem;
+        }
+
+        .show-divider {
+            border: none;
+            border-top: 1px solid #f0f0f0;
+            margin: 1.2rem 0;
+        }
+
+        .show-action-btns {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .btn-edit-listing {
+            padding: 0.55rem 1.4rem;
+            border-radius: 8px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            border: 2px solid #222;
+            color: #222;
+            background: transparent;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-edit-listing:hover {
+            background: #222;
+            color: #fff;
+        }
+
+        .btn-delete-listing {
+            padding: 0.55rem 1.4rem;
+            border-radius: 8px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            border: 2px solid #fe424d;
+            color: #fe424d;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-delete-listing:hover {
+            background: #fe424d;
+            color: #fff;
+        }
+
+        /* ── Price Sticky Card ── */
+        .price-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 1.6rem;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 90px;
+        }
+
+        .price-amount {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1a1a1a;
+        }
+
+        .price-amount span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #888;
+        }
+
+        .price-tag {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 1.2rem;
+        }
+
+        .reserve-btn {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #fe424d, #ff6b6b);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: opacity 0.2s;
+            margin-bottom: 0.8rem;
+        }
+
+        .reserve-btn:hover {
+            opacity: 0.9;
+            color: #fff;
+        }
+
+        .price-note {
+            font-size: 0.78rem;
+            color: #aaa;
+            text-align: center;
+        }
+
+        .price-breakdown {
+            margin-top: 1.2rem;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 1rem;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.88rem;
+            color: #555;
+            margin-bottom: 0.4rem;
+        }
+
+        .price-row.total {
+            font-weight: 700;
+            color: #111;
+            font-size: 0.95rem;
+            margin-top: 0.6rem;
+            border-top: 1px solid #eee;
+            padding-top: 0.6rem;
+        }
+
+        /* ── Reviews ── */
+        .reviews-section {
+            margin-top: 2.5rem;
+        }
+
+        .reviews-heading {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .reviews-heading i {
+            color: #fe424d;
+        }
+
+        .review-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 1.2rem 1.4rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s;
+        }
+
+        .review-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .review-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fe424d, #ff9a9e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .review-username {
+            font-weight: 600;
+            font-size: 0.92rem;
+            color: #222;
+        }
+
+        .review-comment {
+            font-size: 0.9rem;
+            color: #555;
+            margin-top: 0.4rem;
+            line-height: 1.6;
+        }
+
+        .review-stars {
+            color: #FFD700;
+            font-size: 0.85rem;
+        }
+
+        .review-delete-btn {
+            font-size: 0.78rem;
+            color: #ccc;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: color 0.2s;
+        }
+
+        .review-delete-btn:hover {
+            color: #fe424d;
+        }
+
+        /* ── Leave Review Form ── */
+        .review-form-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 1.8rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+        }
+
+        .review-form-heading {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 1rem;
+        }
+
+        .form-control:focus {
+            border-color: #fe424d;
+            box-shadow: 0 0 0 3px rgba(254, 66, 77, 0.12);
+        }
+
+        .btn-submit-review {
+            background: #fe424d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.55rem 1.5rem;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn-submit-review:hover {
+            background: #d63030;
+        }
+    </style>
+
+    <div class="show-hero mt-4">
+        <img src="<%= listing.image.url %>" alt="<%= listing.title %>">
+        <div class="show-hero-badge">
+            <i class="fa fa-map-marker-alt"></i>
+            <%= listing.location %>, <%= listing.country %>
         </div>
-        <div class="show-owner-name">
-          Hosted by <span>@<%= listing.owner.username %></span>
-        </div>
-      </div>
-
-      <div class="show-desc-label">About this place</div>
-      <div class="show-desc"><%= listing.description %></div>
-
-      <% if(currUser && currUser._id.equals(listing.owner._id)) { %>
-        <hr class="show-divider">
-        <div class="show-action-btns">
-          <a href="/listings/<%= listing._id %>/edit" class="btn-edit-listing">
-            <i class="fa fa-pen me-1"></i> Edit Listing
-          </a>
-          <form method="post" action="/listings/<%= listing._id %>?_method=DELETE" class="d-inline">
-            <button class="btn-delete-listing">
-              <i class="fa fa-trash me-1"></i> Delete Listing
-            </button>
-          </form>
-        </div>
-      <% } %>
     </div>
 
-    <div class="reviews-section">
-      <div class="reviews-heading">
-        <i class="fa fa-star"></i>
-        <%= listing.reviews.length ? `${listing.reviews.length} Review${listing.reviews.length > 1 ? 's' : ''}` : 'No reviews yet' %>
-      </div>
+    <div class="show-grid mb-5">
 
-      <% if(listing.reviews.length === 0) { %>
-        <p class="text-muted" style="font-size:0.95rem;">
-          Be the first to share your experience with this place!
-        </p>
-      <% } %>
+        <div>
+            <div class="show-info-card">
+                <h1 class="show-title">
+                    <%= listing.title %>
+                </h1>
+                <div class="show-location">
+                    <i class="fa fa-map-marker-alt"></i>
+                    <%= listing.location %>, <%= listing.country %>
+                </div>
 
-      <% for(let review of listing.reviews) { %>
-        <div class="review-card">
-          <div class="d-flex align-items-center gap-3 mb-2">
-            <div class="review-avatar">
-              <%= review.author.username.charAt(0).toUpperCase() %>
+                <div class="show-owner">
+                    <div class="show-owner-avatar">
+                        <%= listing.owner.username.charAt(0).toUpperCase() %>
+                    </div>
+                    <div class="show-owner-name">
+                        Hosted by <span>@<%= listing.owner.username %></span>
+                    </div>
+                </div>
+
+                <div class="show-desc-label">About this place</div>
+                <div class="show-desc">
+                    <%= listing.description %>
+                </div>
+
+                <% if(locals.currUser && locals.currUser._id.equals(listing.owner._id)) { %>
+                    <hr class="show-divider">
+                    <div class="show-action-btns">
+                        <a href="/listings/<%= listing._id %>/edit" class="btn-edit-listing">
+                            <i class="fa fa-pen me-1"></i> Edit Listing
+                        </a>
+                        <form method="post" action="/listings/<%= listing._id %>?_method=DELETE" class="d-inline">
+                            <button class="btn-delete-listing">
+                                <i class="fa fa-trash me-1"></i> Delete Listing
+                            </button>
+                        </form>
+                    </div>
+                    <% } %>
             </div>
-            <div>
-              <div class="review-username">@<%= review.author.username %></div>
-              <div class="review-stars">
-                <% for(let i=1; i<=5; i++) { %>
-                  <i class="<%= i <= review.rating ? 'fa' : 'far' %> fa-star"></i>
-                <% } %>
-              </div>
+
+            <div class="reviews-section">
+                <div class="reviews-heading">
+                    <i class="fa fa-star"></i>
+                    <%= listing.reviews.length ? `${listing.reviews.length} Review${listing.reviews.length> 1 ? 's' :
+                        ''}` : 'No reviews yet' %>
+                </div>
+
+                <% if(listing.reviews.length===0) { %>
+                    <p class="text-muted" style="font-size:0.95rem;">
+                        Be the first to share your experience with this place!
+                    </p>
+                    <% } %>
+
+                        <% for(let review of listing.reviews) { %>
+                            <div class="review-card">
+                                <div class="d-flex align-items-center gap-3 mb-2">
+                                    <div class="review-avatar">
+                                        <%= review.author.username.charAt(0).toUpperCase() %>
+                                    </div>
+                                    <div>
+                                        <div class="review-username">@<%= review.author.username %>
+                                        </div>
+                                        <div class="review-stars">
+                                            <% for(let i=1; i<=5; i++) { %>
+                                                <i class="<%= i <= review.rating ? 'fa' : 'far' %> fa-star"></i>
+                                                <% } %>
+                                        </div>
+                                    </div>
+                                    <% if(locals.currUser && locals.currUser._id.equals(review.author._id)) { %>
+                                        <div class="ms-auto">
+                                            <form method="post"
+                                                action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                                                <button class="review-delete-btn" title="Delete review">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <% } %>
+                                </div>
+                                <div class="review-comment">
+                                    <%= review.comment %>
+                                </div>
+                            </div>
+                            <% } %>
+
+                                <% if(locals.currUser) { %>
+                                    <div class="review-form-card">
+                                        <div class="review-form-heading"><i class="fa fa-pen me-2"
+                                                style="color:#fe424d;"></i>Leave a review</div>
+                                        <form action="/listings/<%= listing._id %>/reviews" method="post" novalidate
+                                            class="needs-validation">
+
+                                            <fieldset class="starability-slot mb-3">
+                                                <input type="radio" id="no-rate" class="input-no-rate"
+                                                    name="review[rating]" value="1" checked aria-label="No rating." />
+                                                <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                                                <label for="first-rate1" title="Terrible">1 star</label>
+                                                <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                                                <label for="first-rate2" title="Not good">2 stars</label>
+                                                <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                                                <label for="first-rate3" title="Average">3 stars</label>
+                                                <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                                                <label for="first-rate4" title="Very good">4 stars</label>
+                                                <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                                                <label for="first-rate5" title="Amazing">5 stars</label>
+                                            </fieldset>
+
+                                            <div class="mb-3">
+                                                <label for="comment" class="form-label"
+                                                    style="font-size:0.88rem;font-weight:600;color:#555;">Your
+                                                    comment</label>
+                                                <textarea name="review[comment]" id="comment" class="form-control"
+                                                    rows="4" placeholder="Share your experience..." required></textarea>
+                                                <div class="invalid-feedback">Please write a comment before submitting.
+                                                </div>
+                                            </div>
+
+                                            <button class="btn-submit-review">Submit Review</button>
+                                        </form>
+                                    </div>
+                                    <% } %>
             </div>
-            <% if(currUser && currUser._id.equals(review.author._id)) { %>
-              <div class="ms-auto">
-                <form method="post" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
-                  <button class="review-delete-btn" title="Delete review">
-                    <i class="fa fa-trash"></i>
-                  </button>
-                </form>
-              </div>
-            <% } %>
-          </div>
-          <div class="review-comment"><%= review.comment %></div>
         </div>
-      <% } %>
 
-      <% if(currUser) { %>
-        <div class="review-form-card">
-          <div class="review-form-heading"><i class="fa fa-pen me-2" style="color:#fe424d;"></i>Leave a review</div>
-          <form action="/listings/<%= listing._id %>/reviews" method="post" novalidate class="needs-validation">
+        <div>
+            <div class="price-card">
+                <div class="price-amount">
+                    &#8377;<%= listing.price.toLocaleString("en-IN") %>
+                        <span>/ night</span>
+                </div>
+                <div class="price-tag">Taxes & fees may apply</div>
 
-            <fieldset class="starability-slot mb-3">
-              <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
-              <input type="radio" id="first-rate1" name="review[rating]" value="1" />
-              <label for="first-rate1" title="Terrible">1 star</label>
-              <input type="radio" id="first-rate2" name="review[rating]" value="2" />
-              <label for="first-rate2" title="Not good">2 stars</label>
-              <input type="radio" id="first-rate3" name="review[rating]" value="3" />
-              <label for="first-rate3" title="Average">3 stars</label>
-              <input type="radio" id="first-rate4" name="review[rating]" value="4" />
-              <label for="first-rate4" title="Very good">4 stars</label>
-              <input type="radio" id="first-rate5" name="review[rating]" value="5" />
-              <label for="first-rate5" title="Amazing">5 stars</label>
-            </fieldset>
+                <a href="#" class="reserve-btn">Reserve Now</a>
+                <div class="price-note">You won't be charged yet</div>
 
-            <div class="mb-3">
-              <label for="comment" class="form-label" style="font-size:0.88rem;font-weight:600;color:#555;">Your comment</label>
-              <textarea name="review[comment]" id="comment" class="form-control" rows="4" placeholder="Share your experience..." required></textarea>
-              <div class="invalid-feedback">Please write a comment before submitting.</div>
+                <div class="price-breakdown">
+                    <div class="price-row">
+                        <span>&#8377;<%= listing.price.toLocaleString("en-IN") %> × 1 night</span>
+                        <span>&#8377;<%= listing.price.toLocaleString("en-IN") %></span>
+                    </div>
+                    <div class="price-row">
+                        <span>Service fee</span>
+                        <span>&#8377;<%= Math.round(listing.price * 0.12).toLocaleString("en-IN") %></span>
+                    </div>
+                    <div class="price-row total">
+                        <span>Total</span>
+                        <span>&#8377;<%= Math.round(listing.price * 1.12).toLocaleString("en-IN") %></span>
+                    </div>
+                </div>
             </div>
-
-            <button class="btn-submit-review">Submit Review</button>
-          </form>
         </div>
-      <% } %>
+
     </div>
-  </div>
-
-  <div>
-    <div class="price-card">
-      <div class="price-amount">
-        &#8377;<%= listing.price.toLocaleString("en-IN") %>
-        <span>/ night</span>
-      </div>
-      <div class="price-tag">Taxes & fees may apply</div>
-
-      <a href="#" class="reserve-btn">Reserve Now</a>
-      <div class="price-note">You won't be charged yet</div>
-
-      <div class="price-breakdown">
-        <div class="price-row">
-          <span>&#8377;<%= listing.price.toLocaleString("en-IN") %> × 1 night</span>
-          <span>&#8377;<%= listing.price.toLocaleString("en-IN") %></span>
-        </div>
-        <div class="price-row">
-          <span>Service fee</span>
-          <span>&#8377;<%= Math.round(listing.price * 0.12).toLocaleString("en-IN") %></span>
-        </div>
-        <div class="price-row total">
-          <span>Total</span>
-          <span>&#8377;<%= Math.round(listing.price * 1.12).toLocaleString("en-IN") %></span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div>

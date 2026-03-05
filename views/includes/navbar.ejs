@@ -20,15 +20,15 @@
             </div>
 
 
-            <% if(!currUser) { %>
+            <% if(!locals.currUser) { %>
                 <a href="/signup" class="wl-btn wl-btn-ghost">Sign Up</a>
                 <a href="/login" class="wl-btn wl-btn-primary">Log In</a>
                 <% } %>
-                    <% if(currUser) { %>
+                    <% if(locals.currUser) { %>
                         <a href="/listings/new" class="wl-btn wl-btn-ghost">+ Add Listing</a>
                         <a href="/logout" class="wl-btn wl-btn-primary">Log Out</a>
                         <% } %>
-                            <% if(!currUser) { %>
+                            <% if(!locals.currUser) { %>
                                 <a href="/listings/new" class="wl-btn wl-btn-add d-none d-lg-inline-flex">+ Add
                                     Listing</a>
                                 <% } %>
@@ -36,7 +36,7 @@
 
 
 
-                                <button class="wl-hamburger" id="wlHamburger" aria-label="Toggle menu">
+                                    <button class="wl-hamburger" id="wlHamburger" aria-label="Toggle menu">
                                         <span></span><span></span><span></span>
                                     </button>
         </div>
