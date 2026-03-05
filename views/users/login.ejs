@@ -1,19 +1,170 @@
 <%= layout('/layouts/boilerplate') %>
 
-<div class="row-mt-3">
-    <h1 class="col-6 offset-3">LogIn</h1>
-    <div class="col-6 offset-3">
-        <form action="/login" method="post" class="needs-validation" novalidate>
-            <div class="mb-3">
-                <label for="username" class="form-title">Username</label>
-                <input type="text" name="username" id="username" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-title">Password</label>
-                <input type="password" name="password" id="password" class="form-control" required>
-            </div>
+    <style>
+        body {
+            background: #f7f5f2;
+        }
 
-            <button type="submit" class="btn btn-primary">Log In</button>
-        </form>
+        .auth-wrap {
+            min-height: calc(100vh - 64px - 200px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .auth-card {
+            background: #fff;
+            border-radius: 22px;
+            padding: 2.5rem 2.2rem;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.10);
+        }
+
+        .auth-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, #fe424d, #ff6b6b);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .auth-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 0.3rem;
+        }
+
+        .auth-sub {
+            font-size: 0.88rem;
+            color: #999;
+            margin-bottom: 1.8rem;
+        }
+
+        .auth-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.35rem;
+            display: block;
+        }
+
+        .auth-input {
+            width: 100%;
+            border: 1.5px solid #e8e8e8;
+            border-radius: 10px;
+            padding: 11px 14px;
+            font-size: 0.95rem;
+            color: #222;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: #fafafa;
+            margin-bottom: 1.1rem;
+        }
+
+        .auth-input:focus {
+            border-color: #fe424d;
+            box-shadow: 0 0 0 3px rgba(254, 66, 77, 0.1);
+            background: #fff;
+        }
+
+        .auth-input.is-invalid {
+            border-color: #dc3545;
+        }
+
+        .auth-submit {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #fe424d, #ff5e5e);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.15s;
+            margin-top: 0.4rem;
+        }
+
+        .auth-submit:hover {
+            opacity: 0.92;
+            transform: translateY(-1px);
+        }
+
+        .auth-submit:active {
+            transform: translateY(0);
+        }
+
+        .auth-footer-text {
+            text-align: center;
+            margin-top: 1.4rem;
+            font-size: 0.87rem;
+            color: #999;
+        }
+
+        .auth-footer-text a {
+            color: #fe424d;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .auth-footer-text a:hover {
+            text-decoration: underline;
+        }
+
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 1.2rem 0;
+            color: #ddd;
+            font-size: 0.8rem;
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #eee;
+        }
+    </style>
+
+    <div class="auth-wrap">
+        <div class="auth-card">
+            <div class="auth-icon"><i class="fa-solid fa-compass"></i></div>
+            <div class="auth-title">Welcome back</div>
+            <div class="auth-sub">Log in to your Wanderlust account</div>
+
+            <form action="/login" method="post" class="needs-validation" novalidate>
+                <label class="auth-label" for="username">Username</label>
+                <input type="text" name="username" id="username" class="auth-input" placeholder="Enter your username"
+                    required autocomplete="username">
+                <div class="invalid-feedback" style="margin-top:-0.8rem;margin-bottom:0.8rem;font-size:0.8rem;">Username
+                    is required.</div>
+
+                <label class="auth-label" for="password">Password</label>
+                <input type="password" name="password" id="password" class="auth-input"
+                    placeholder="Enter your password" required autocomplete="current-password">
+                <div class="invalid-feedback" style="margin-top:-0.8rem;margin-bottom:0.8rem;font-size:0.8rem;">Password
+                    is required.</div>
+
+                <button type="submit" class="auth-submit">
+                    <i class="fa-solid fa-right-to-bracket me-2"></i>Log In
+                </button>
+            </form>
+
+            <div class="auth-footer-text">
+                Don't have an account? <a href="/signup">Sign up</a>
+            </div>
+        </div>
     </div>
-</div>
