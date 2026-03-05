@@ -39,7 +39,7 @@ const MONGO_URL = process.env.MONGO_URI;
 async function main() {
     await mongoose.connect(MONGO_URL, {
         serverSelectionTimeoutMS: 10000,
-        socketTimeoutMS: 45000,
+        socketTimeoutMS: 45000
     });
 }
 main()
@@ -111,6 +111,10 @@ app.all('*', (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
+    // If response already started, delegate to Express default handler
+    if (res.headersSent) {
+        return next(err);
+    }
     let { statusCode = 500, message = 'Something went wrong' } = err;
     res.status(statusCode).render("error.ejs", { err });
     // res.status(statusCode).send({ message });
