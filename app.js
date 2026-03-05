@@ -45,7 +45,7 @@ main()
         console.log(`Connected to DB`);
     })
     .catch((err) => {
-        console.log(err);
+        console.error('MongoDB connection failed:', err.message);
     })
 
 const store = MongoStore.create({
