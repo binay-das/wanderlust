@@ -13,9 +13,12 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 
-if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config();
-}
+require('dotenv').config();
+
+// Prevent unhandled DB/DNS rejections from crashing the process
+process.on('unhandledRejection', (reason) => {
+    console.error('Unhandled Rejection:', reason?.message || reason);
+});
 
 const listingRouter = require('./routes/listingRouter.js');
 const reviewRouter = require('./routes/reviewRouter.js');
