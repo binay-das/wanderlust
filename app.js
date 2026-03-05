@@ -15,7 +15,6 @@ const User = require('./models/user');
 
 require('dotenv').config();
 
-// Prevent unhandled DB/DNS rejections from crashing the process
 process.on('unhandledRejection', (reason) => {
     console.error('Unhandled Rejection:', reason?.message || reason);
 });
